@@ -67,7 +67,7 @@ export default {
   },
   mounted() {
     this.fetchUsersList();
-    this.fetchRoomTypesList(); // Fetch room types instead of rooms
+    this.fetchRoomTypesList();
   },
   methods: {
     fetchUsersList() {
@@ -109,14 +109,14 @@ export default {
         user: {
           id: this.selectedUser,
         },
-        room: { // Send room object with id
+        room: {
           id: roomTypeId,
         },
         inDate: this.selectedIssuedDate ? new Date(this.selectedIssuedDate).toISOString() : null,
         outDate: this.selectedReturnedDate ? new Date(this.selectedReturnedDate).toISOString() : null,
       };
 
-      console.log("Booking Payload:", booking); // Debugging line
+      console.log("Booking Payload:", booking);
 
       axios
           .post("http://localhost:8080/api/bookings/create", booking)
@@ -134,12 +134,12 @@ export default {
     },
   },
 };
-/*Currently working*/
+
 </script>
 
 <style scoped>
 
-/* General Container Styling */
+
 .card-container {
   background: white;
   max-width: 400px;
@@ -150,14 +150,14 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Container */
+
 .form-container-admin {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Form Header */
+
 .form-header {
   text-align: center;
   margin-bottom: 20px;
@@ -169,7 +169,7 @@ export default {
   color: #4c61af;
 }
 
-/* Form Group Styling */
+
 .form-group {
   margin-bottom: 15px;
 }
@@ -198,7 +198,7 @@ export default {
   outline: none;
 }
 
-/* Button Styling */
+
 .button-container {
   text-align: center;
 }
@@ -222,14 +222,14 @@ export default {
   margin-right: 5px;
 }
 
-/* Error Message Styling */
+
 .error-message {
   color: #d9534f;
   font-weight: bold;
   text-align: center;
   margin-top: 10px;
 }
-/* Background Gradient for the Container */
+
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -240,3 +240,7 @@ body {
   height: 100vh;
 }
 </style>
+/*
+Author:Moegamat Isgak Abzal
+Date:17/6/2024
+*/

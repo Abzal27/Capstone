@@ -10,33 +10,34 @@ package za.ac.cput.factory;
 import org.springframework.stereotype.Component;
 import za.ac.cput.domain.User;
 
-@Component
+
 public class UserFactory implements IFactory<User>
 {
-    public User create(int id, String userName, String email, String profilePicture, String firstName, String lastName, String phoneNumber, String password)
-    {
-        return User.builder()
-                .id(id)
-                .userName(userName)
-                .email(email)
-                .pictureUrl(profilePicture)
-                .firstName(firstName)
-                .lastName(lastName)
-                .phoneNumber(phoneNumber)
-                .password(password)
+    public User create(int id, String userName, String email, String pictureUrl, String firstName, String lastName, String phoneNumber, String password) {
+        return new User.Builder()
+                .setId(id)
+                .setUserName(userName)
+                .setEmail(email)
+                .setPictureUrl(pictureUrl)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPhoneNumber(phoneNumber)
+                .setPassword(password)
                 .build();
     }
 
     @Override
-    public User create()
-    {
-        return User.builder().build();
+    public User create() {
+        return new User.Builder().build();
     }
 
-    public User create(User user)
-    {
-        return User.builder()
+    public User create(User user) {
+        return new User.Builder()
                 .copy(user)
                 .build();
     }
 }
+/*
+ Author:Moegamat Isgak Abzal
+ Date:7/5/2024
+ */

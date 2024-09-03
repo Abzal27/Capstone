@@ -18,66 +18,42 @@ import za.ac.cput.service.impl.UserServiceImpl;
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
-    @Qualifier("userServiceImpl")
     private UserServiceImpl userService;
 
     @CrossOrigin(origins = "http://localhost:3315")
     @PostMapping("/register")
     public User register(@RequestBody User registrationRequest) {
-        // Extract the registration details from the request object
-        String username = registrationRequest.getUserName();
-        String password = registrationRequest.getPassword();
-        String email = registrationRequest.getEmail();
-        System.out.println("Username: " + username);
-        System.out.println("This user is now registered");
         User createdUser = userService.create(registrationRequest);
-        // Implement the logic to handle user registration
-        // Retrieve the user details from the request and process it
-        // Return an appropriate response, such as a success message or error message
+        System.out.println("User registered: " + createdUser.getUserName());
         return createdUser;
     }
 
-
     @PostMapping("/login")
     public String login(@RequestBody User loginRequest) {
-        // Implement the logic to handle user login
         String username = loginRequest.getUserName();
-        String password = loginRequest.getPassword();
-        return "User logged in successfully";
-
-/*
-        // Authenticate the user
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-*/
-        /*
-        // Return an appropriate response
-        if (authentication.isAuthenticated()) {
-            // User is authenticated
-            return "User logged in successfully";
-        } else {
-            // Authentication failed
-            return "Authentication failed";
-        }*/
-
+        return "User " + username + " logged in successfully";
     }
-
 
     @GetMapping("/profile/{userId}")
     public User readUser(@PathVariable Integer userId) {
-        System.out.println("/api/admin/users/read was triggered");
-        System.out.println("UserService was created...attempting to read user...");
         User readUser = userService.read(userId);
+        if (readUser != null) {
+            System.out.println("User profile retrieved: " + readUser.getUserName());
+        } else {
+            System.out.println("User not found with ID: " + userId);
+        }
         return readUser;
     }
 
     @GetMapping("/{userId}")
     public User read(@PathVariable Integer userId) {
-        System.out.println("/api/user/{userId} was triggered");
         User user = userService.read(userId);
+        if (user != null) {
+            System.out.println("User retrieved: " + user.getUserName());
+        } else {
+            System.out.println("User not found with ID: " + userId);
+        }
         return user;
     }
-
 }
 

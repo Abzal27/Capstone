@@ -17,54 +17,45 @@ import za.ac.cput.service.IUserService;
 import java.util.ArrayList;
 import java.util.Optional;
 
-@Service("userServiceImpl")
+@Service
 public class UserServiceImpl implements IUserService {
-    private UserRepository repository = null;
-    private UserFactory userFactory;
 
     @Autowired
-    private UserServiceImpl(UserRepository repository, UserFactory userFactory) {
-        this.repository = repository;
-        this.userFactory = userFactory;
-    }
-
+    private UserRepository userRepository;
 
     @Override
     public User create(User user) {
-        User newUser = userFactory.create(user);
-        return repository.save(newUser);
-    }
 
+        return userRepository.save(user);
+    }
 
     @Override
     public User read(Integer id) {
-        Optional<User> optionalUser = this.repository.findById(id);
-        return optionalUser.orElse(null);
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
     @Override
     public User update(User user) {
-        if (repository.existsById(user.getId())) {
-            User updatedUser = userFactory.create(user);
-            return repository.save(updatedUser);
+        if (userRepository.existsById(user.getId())) {
+            return userRepository.save(user);
+        } else {
+            return null;
         }
-        return null;
     }
-
 
     @Override
     public boolean delete(Integer id) {
-        if (this.repository.existsById(id)) {
-            this.repository.deleteById(id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
     public ArrayList<User> getAll() {
-        return (ArrayList<User>) this.repository.findAll();
+        return new ArrayList<>(userRepository.findAll());
     }
-
-
 }

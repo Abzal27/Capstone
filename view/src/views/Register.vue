@@ -22,6 +22,10 @@
             <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" v-model="phoneNumber">
           </div>
           <div class="form-group">
+            <label for="userName"><i class="fas fa-user-circle"></i> Username:</label>
+            <input type="text" id="userName" name="userName" placeholder="Enter your username" v-model="userName" required>
+          </div>
+          <div class="form-group">
             <label for="password"><i class="fas fa-lock"></i> Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" v-model="password" required>
           </div>
@@ -49,6 +53,7 @@ export default {
       lastName: "",
       email: "",
       phoneNumber: "",
+      userName: "",
       password: "",
       loadingModal: false,
       successModal: {
@@ -63,10 +68,10 @@ export default {
   },
   methods: {
     register() {
-      //this.loadingModal = true;
+      this.loadingModal = true;
       axios
           .post("http://localhost:8080/api/user/register", {
-            userName: this.email,
+            userName: this.userName,
             firstName: this.firstName,
             lastName: this.lastName,
             phoneNumber: this.phoneNumber,
@@ -81,10 +86,12 @@ export default {
             this.loadingModal = false;
             alert("Registration failed");
           });
+    },
+    goToLogin() {
+
+      this.$router.push("/login");
     }
   }
-
-
 };
 </script>
 
@@ -102,7 +109,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 500px;
 }
 
 .form-container {
@@ -178,3 +185,7 @@ export default {
   background-color: #0056b3;
 }
 </style>
+/*
+Author:Moegamat Isgak Abzal
+Date:25/5/2024
+*/

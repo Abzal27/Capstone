@@ -44,13 +44,13 @@ public class AdminUserController {
             @RequestParam("userName") String userName,
             @RequestParam(value = "picture", required = false) MultipartFile picture) {
 
-        User newUser = new User();
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setPhoneNumber(phoneNumber);
-        newUser.setUserName(userName);
+        User.Builder newUserBuilder = new User.Builder()
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setPassword(password)
+                .setPhoneNumber(phoneNumber)
+                .setUserName(userName);
 
         // Handle file if it's not null
         if (picture != null && !picture.isEmpty()) {
@@ -60,30 +60,35 @@ public class AdminUserController {
                 // Save or process the file here
                 // Assuming you save the file to a directory and get its URL
                 String fileUrl = "/path/to/saved/file/" + fileName;
-                newUser.setPictureUrl(fileUrl);
+                newUserBuilder.setPictureUrl(fileUrl);
             } catch (IOException e) {
                 e.printStackTrace();
                 return ResponseEntity.status(500).build(); // Internal Server Error
             }
         } else {
             // If no picture is uploaded, ensure pictureUrl remains NULL
-            newUser.setPictureUrl(null);
+            newUserBuilder.setPictureUrl(null);
         }
 
-        User createdUser = userService.create(newUser);
+        User createdUser = userService.create(newUserBuilder.build());
         return ResponseEntity.ok(createdUser);
     }
-
 
     @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User updatedUser) {
         User existingUser = userService.read(id);
 
         if (existingUser != null) {
-            existingUser.setFirstName(updatedUser.getFirstName());
-            existingUser.setLastName(updatedUser.getLastName());
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setPassword(updatedUser.getPassword());
+            existingUser = new User.Builder()
+                    .copy(existingUser)
+                    .setFirstName(updatedUser.getFirstName())
+                    .setLastName(updatedUser.getLastName())
+                    .setEmail(updatedUser.getEmail())
+                    .setPassword(updatedUser.getPassword())
+                    .setPhoneNumber(updatedUser.getPhoneNumber())
+                    .setUserName(updatedUser.getUserName())
+                    .setPictureUrl(updatedUser.getPictureUrl())
+                    .build();
 
             existingUser = userService.update(existingUser);
             return ResponseEntity.ok(existingUser);

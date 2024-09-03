@@ -22,3 +22,8 @@ public interface IUserService extends IService<User, Integer> {
 
     ArrayList<User> getAll();
 }
+/*
+ Author:Moegamat Isgak Abzal
+ Date:7/5/2024
+ */
+
